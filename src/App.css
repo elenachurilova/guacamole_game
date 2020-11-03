@@ -1,4 +1,24 @@
-.App {
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0
+}
+
+body {
+  font-family: "Seqoe UI", Arial, sans-serif;
+  line-height: 1.4;
+  color: #1f1f1f;
+}
+
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 10px;
+}
+
+
+/* .App {
   text-align: center;
 }
 
@@ -35,4 +55,4 @@
   to {
     transform: rotate(360deg);
   }
-}
+} */
