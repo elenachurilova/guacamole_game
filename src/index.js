@@ -1,18 +1,41 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import App from './App';
 import Landing from './components/Landing'
-import reportWebVitals from './reportWebVitals';
+// import reportWebVitals from './reportWebVitals';
 import "./App.css"
 
 function Game () {
   return (
-      <div className="container">
-          <Landing />
-          <button className="large-button">Start the game</button>
-          <App />
+    <Router>
+      <div className="container-fluid">
+          <nav className="navbar navbar-expand-lg bg-light">
+              <div className="collapse navbar-collapse" id="navbarSupportedContent">
+                  <ul className="navbar-nav mr-auto">
+                      <li className="nav-item">
+                          <a className="nav-link" role="button"><Link to="/">Home</Link></a>
+                      </li>
+                      <li>
+                          <a className="nav-link"><Link to="/game">Start the game</Link></a>
+                      </li>
+                  </ul>
+              </div>
+          </nav>
+            
           <footer>Credits: <a href="https://github.com/elenachurilova">Elena Churilova</a>, <a href="https://github.com/LaRenaiocco">LaRena Iocco</a> and <a href="https://github.com/shhudspeth">Sarah Hudspeth</a> </footer>
+      
+          <Switch>
+              <Route path="/game">
+                <App />
+              </Route>
+              <Route path="/">
+                <Landing />
+              </Route>
+          </Switch>
       </div>
+    </Router>
+      
     )
 
 }
@@ -27,4 +50,4 @@ ReactDOM.render(
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+// reportWebVitals();

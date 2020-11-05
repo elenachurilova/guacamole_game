@@ -13,21 +13,22 @@ function Landing() {
     }
 
     return (
-        <div>
-            <h1>Welcome to Guac-A-Mole!</h1>
-            <h3>a fun twist on the original whack-a-mole game</h3>
-            <button onClick={show_instructions} className="large_button">Instructions</button>
+        <div className="container">
+            <div className="paragraph">
+                <h1>Welcome to Guac-A-Mole!</h1>
+                <h3>a fun twist on the original whack-a-mole game</h3>
+            </div>
+            <button onClick={show_instructions} type="button" className="btn btn-success">Instructions</button>
             <Instructions instructions={instructions}/>
         </div>
     )
 }
 
 function InstructionText(props) {
-    return <div>
-            <h3>Guac-A-Mole Instructions:</h3>
-            <p>It's easy! Just click on avocado when it appears and score 100 points.</p>
-            <p>If you miss, you'll lose one chip. You only have 5 chips per one game</p>
-            <p>Enjoy!</p>
+    return <div className="paragraph">
+                <h5> It's easy! Just click on avocado when it appears and score 100 points.</h5>
+                <h5>If you miss, you'll lose one chip. You only have 5 chips per one game. </h5>
+                <h5>Enjoy!</h5>
         </div>
 }
 

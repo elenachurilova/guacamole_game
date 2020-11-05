@@ -158,7 +158,7 @@ const Canvas = props => {
     }, []);
 
     return (
-            <div>
+            <div className="container">
                 <h1>Guac-A-Mole</h1>
                 <div>
                     <Scoreboard score={score} />

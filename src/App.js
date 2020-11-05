@@ -1,7 +1,6 @@
 import React from "react";
 import Canvas from "./components/Canvas"
 
-
 const score = 0; 
 export const ScoreContext = React.createContext(0);
 
