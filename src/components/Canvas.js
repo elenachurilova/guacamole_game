@@ -28,9 +28,7 @@ const Canvas = props => {
     const [ gameState, setGameState ] = useState(initState)
     // trying to lift score state using useContext
     const mainscore = useContext(ScoreContext)
-    console.log(mainscore, "GLOBALTHING")
     const [score, setScore] = React.useState(0);
-    console.log(score)
 
     // SET ALL CHIPS TO DISPLAY #TRUE
     const [missed1, setMissed1] = useState(true);
@@ -46,18 +44,11 @@ const Canvas = props => {
         setScore(score + 100)
     }
 
-    
-    // let score = useContext(ScoreContext);
-    console.log(score)
-
     function updateState() {
         const position = randomNumber(0, gameState.cells.length)
         const newCells = new Array(9).fill(false)
         newCells[position] = true
         setGameState( {cells: newCells, avoPosition: {x: avocado_positions[position].x, y: avocado_positions[position].y}} )
-        console.log(`new position: ${position}`)
-        console.log(gameState)
-        console.log(`x: ${avocado_positions[position].x}, y: ${avocado_positions[position].y}`)
     }
 
     const newBoard = new Image()
@@ -75,23 +66,12 @@ const Canvas = props => {
         }
     }
 
-    // const timer2 = setInterval(updateState, 8000)
-    
-
     function randomNumber(min, max) {
         return Math.floor(Math.random() * (max - min) + min);
       };
 
     
     function displayAvocado(position, ctx) {
-
-        // const small_avocado = '../../small_avocado.png'
-        // const newAvocado = new Image()
-        // newAvocado.src = small_avocado
-        
-        // console.log(position.x)
-        // console.log(position.y)
-
         ctx.drawImage(newAvocado, position.x, position.y, 100, 100)
     }
 
@@ -105,15 +85,22 @@ const Canvas = props => {
         const context = canvas.getContext('2d')
         draw(context)
         // handleClick()
-
-
     })
+
+    useEffect(() => {
+        var interval = setInterval(() => {
+            updateState();
+        }, 1000);
+        // return () => clearInterval(interval);
+        return () => console.log('return from useEffect')
+    }, []);
+
     function handleClick(event) {
         const xPosition = event.clientX
         const yPosition = event.clientY
-        // alert(`x: ${xPosition} y:${yPosition}`)
         const gameStateX = gameState.avoPosition.x
         const gameStateY = gameState.avoPosition.y
+        console.log(xPosition, yPosition, gameStateX, gameStateY)
 
         // i moved the tortilla chips to be aboev the canvas: this resulted in a 220 pixel difference between clicks and avocado positions.
         if (((gameStateX + 100) > xPosition && xPosition > gameStateX) && ((gameStateY + 220) > yPosition && yPosition > gameStateY)) {
@@ -121,41 +108,32 @@ const Canvas = props => {
             alert("You got the avocado!")
                 //  increase score count
                 
-                
             } else {
                 alert("You Missed!")
-                console.log(countMisses)
                 if (countMisses===5){
-                    setMissed5(false);   
+                    setMissed5(false);    
                 }
                 if(countMisses===4){
                     setMissed4(false);
+                    
                 }
                 if(countMisses===3){
                     setMissed3(false);
+                    
                 }
                 if(countMisses===2){
                     setMissed2(false);
+                    
                 }
                 if(countMisses===1){
                     setMissed1(false);
-                    //TRIGGER GAME OVER AND RESET!
-
+                    
                 }
                 setCountMisses(countMisses -1)
-                console.log(countMisses, "COUNTMISSES")
-                // decrease chips
-                // check if chips == 0
             }
-
     }
 
-    useEffect(() => {
-        const interval = setInterval(() => {
-            updateState();
-        }, 1000);
-        return () => clearInterval(interval);
-    }, []);
+    
 
     return (
             <div className="container">
@@ -163,7 +141,7 @@ const Canvas = props => {
                 <div>
                     <Scoreboard score={score} />
                 </div>
-                <h5>Lives left ⤵️ </h5>
+                <h5>Lives left: {countMisses}</h5>
                 <div className='row'>
                     {missed1 &&  <Chip />}
                     {missed2 &&  <Chip />}
@@ -172,7 +150,6 @@ const Canvas = props => {
                     {missed5 &&  <Chip />}
                 </div>
                 
-
                 <div className="row">
                     <canvas id="canvas" onClick={handleClick} width="500px" height="500px" ref={canvasRef} {...props}/>
                 </div>
@@ -185,3 +162,10 @@ const Canvas = props => {
 }
 
 export default Canvas
+
+
+// need help with:
+// stop running interval when there is no lives left (implement gameover)
+// fix a bug where a user can't score / pixels out of range
+// remove alert popping in the browser and make appear on the page
+// errors on console
