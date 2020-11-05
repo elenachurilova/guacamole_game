@@ -13,13 +13,11 @@ function Landing() {
     }
 
     return (
-        <div className="container">
+        <div>
             <h1>Welcome to Guac-A-Mole!</h1>
             <h3>a fun twist on the original whack-a-mole game</h3>
             <button onClick={show_instructions} className="large_button">Instructions</button>
-            <button className="large_button">Start</button>
             <Instructions instructions={instructions}/>
-            <footer>Credits: <a href="https://github.com/elenachurilova">Elena Churilova</a>, <a href="https://github.com/LaRenaiocco">LaRena Iocco</a> and <a href="https://github.com/shhudspeth">Sarah Hudspeth</a> </footer>
         </div>
     )
 }

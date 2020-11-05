@@ -3,7 +3,7 @@ import React, { useRef, useEffect, useState } from 'react'
 function Scoreboard(props) {
     return (
         <div>
-            <div>Score: {props.score}</div>
+            <h5>Score: {props.score}</h5>
         </div>
     )
 }

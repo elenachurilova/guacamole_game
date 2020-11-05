@@ -5,10 +5,21 @@ import Landing from './components/Landing'
 import reportWebVitals from './reportWebVitals';
 import "./App.css"
 
+function Game () {
+  return (
+      <div className="container">
+          <Landing />
+          <button className="large-button">Start the game</button>
+          <App />
+          <footer>Credits: <a href="https://github.com/elenachurilova">Elena Churilova</a>, <a href="https://github.com/LaRenaiocco">LaRena Iocco</a> and <a href="https://github.com/shhudspeth">Sarah Hudspeth</a> </footer>
+      </div>
+    )
+
+}
+
 ReactDOM.render(
   <div>
-    <Landing />
-    <App />
+    <Game />
   </div>,
   document.getElementById('root')
 );

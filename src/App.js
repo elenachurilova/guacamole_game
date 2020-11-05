@@ -5,13 +5,12 @@ import Canvas from "./components/Canvas"
 const score = 0; 
 export const ScoreContext = React.createContext(0);
 
-function App() {
+function App(props) {
   
   return (
     <div>
       <ScoreContext.Provider value={score}>
         <Canvas />
-        <div className='container'></div>
       </ScoreContext.Provider>
     </div>
   )

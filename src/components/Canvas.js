@@ -158,28 +158,25 @@ const Canvas = props => {
     }, []);
 
     return (
-            <div className="container">
+            <div>
                 <h1>Guac-A-Mole</h1>
+                <div>
+                    <Scoreboard score={score} />
+                </div>
+                <h5>Lives left ⤵️ </h5>
                 <div className='row'>
-                    <h5>Lives left:</h5>
                     {missed1 &&  <Chip />}
                     {missed2 &&  <Chip />}
                     {missed3 &&  <Chip />}
                     {missed4 &&  <Chip />}
                     {missed5 &&  <Chip />}
                 </div>
+                
 
                 <div className="row">
                     <canvas id="canvas" onClick={handleClick} width="500px" height="500px" ref={canvasRef} {...props}/>
                 </div>
-                <div className= "row">
-                    <div className = "col">
-                        <Scoreboard score={score} />
-                    </div>
-                    <div className = "col">
-                        <Guacamole />
-                    </div>
-                </div>
+                
 
                 
             </div>  
