@@ -3,10 +3,13 @@ import ScoreContext from "../App"
 import Scoreboard from "./Scoreboard"
 import Guacamole from "./Guacamole"
 import Chip from "./Chip"
+import GameOver from "./GameOver"
 
 const Canvas = props => {
     
     const canvasRef = useRef(null)
+    const AVOCADO = 1
+    const FLASH = 2
 
     const avocado_positions = [
         { x: 50, y: 150,},
@@ -30,14 +33,7 @@ const Canvas = props => {
     const mainscore = useContext(ScoreContext)
     const [score, setScore] = React.useState(0);
 
-    // SET ALL CHIPS TO DISPLAY #TRUE
-    const [missed1, setMissed1] = useState(true);
-    const [missed2, setMissed2] = useState(true);
-    const [missed3, setMissed3] = useState(true);
-    const [missed4, setMissed4] = useState(true);
-    const [missed5, setMissed5] = useState(true);
-
-    const [countMisses, setCountMisses] = useState(5)
+    const [lives, setLives] = useState(5)
 
     //FUNCTION TO INCREMENT THE SCORE FOR A HIT
     function increment(score) {
@@ -47,22 +43,25 @@ const Canvas = props => {
     function updateState() {
         const position = randomNumber(0, gameState.cells.length)
         const newCells = new Array(9).fill(false)
-        newCells[position] = true
-        setGameState( {cells: newCells, avoPosition: {x: avocado_positions[position].x, y: avocado_positions[position].y}} )
+        newCells[position] = AVOCADO
+        setGameState( {cells: newCells, avoPosition: {x: avocado_positions[position].x, y: avocado_positions[position].y}, position: position } )
     }
 
     const newBoard = new Image()
     newBoard.src = './cuttingboard.png'
-    const small_avocado = './small_avocado.png'
     const newAvocado = new Image()
-    newAvocado.src = small_avocado
+    newAvocado.src = './small_avocado.png'
+    const newFlash = new Image()
+    newFlash.src = './flash.png'
 
     function showAvocados(ctx) {
-
         for (const i in gameState.cells) {
-            if (gameState.cells[i] === true) {
+            if (gameState.cells[i] === AVOCADO) {
                 displayAvocado(avocado_positions[i], ctx)
+            } else if (gameState.cells[i] === FLASH) {
+                displayFlash(avocado_positions[i], ctx)
             }
+            
         }
     }
 
@@ -73,6 +72,10 @@ const Canvas = props => {
     
     function displayAvocado(position, ctx) {
         ctx.drawImage(newAvocado, position.x, position.y, 100, 100)
+    };
+
+    function displayFlash(position, ctx) {
+        ctx.drawImage(newFlash, position.x, position.y, 100, 100)
     }
 
     const draw = (ctx) => {
@@ -81,10 +84,12 @@ const Canvas = props => {
     }
 
     useEffect(() => {
+        if (canvasRef.current === null) {
+            return
+        }
         const canvas = canvasRef.current
         const context = canvas.getContext('2d')
         draw(context)
-        // handleClick()
     })
 
     useEffect(() => {
@@ -96,44 +101,40 @@ const Canvas = props => {
     }, []);
 
     function handleClick(event) {
-        const xPosition = event.clientX
-        const yPosition = event.clientY
+        const xPosition = event.clientX - event.target.offsetLeft
+        const yPosition = event.clientY - event.target.offsetTop
         const gameStateX = gameState.avoPosition.x
         const gameStateY = gameState.avoPosition.y
         console.log(xPosition, yPosition, gameStateX, gameStateY)
+        console.log(event)
 
         // i moved the tortilla chips to be aboev the canvas: this resulted in a 220 pixel difference between clicks and avocado positions.
         if (((gameStateX + 100) > xPosition && xPosition > gameStateX) && ((gameStateY + 220) > yPosition && yPosition > gameStateY)) {
             increment(score)
-            alert("You got the avocado!")
-                //  increase score count
+            // alert("You got the avocado!")
+            // updating array with "FLASH"
+            gameState.cells[gameState.position] = FLASH
+
+            setGameState( {
+                cells: gameState.cells, 
+                position: gameState.position
+            } )
                 
             } else {
-                alert("You Missed!")
-                if (countMisses===5){
-                    setMissed5(false);    
-                }
-                if(countMisses===4){
-                    setMissed4(false);
-                    
-                }
-                if(countMisses===3){
-                    setMissed3(false);
-                    
-                }
-                if(countMisses===2){
-                    setMissed2(false);
-                    
-                }
-                if(countMisses===1){
-                    setMissed1(false);
-                    
-                }
-                setCountMisses(countMisses -1)
+                // alert("You Missed!")
+                setLives(lives -1)
             }
     }
 
-    
+    if (lives === 0) {
+        return (
+            <div>
+                <GameOver />
+                <button onClick={()=>setLives(5)}>Play Again</button>
+            </div>
+            
+        )
+    }
 
     return (
             <div className="container">
@@ -141,31 +142,28 @@ const Canvas = props => {
                 <div>
                     <Scoreboard score={score} />
                 </div>
-                <h5>Lives left: {countMisses}</h5>
+                <h5>Lives left: {lives}</h5>
                 <div className='row'>
-                    {missed1 &&  <Chip />}
-                    {missed2 &&  <Chip />}
-                    {missed3 &&  <Chip />}
-                    {missed4 &&  <Chip />}
-                    {missed5 &&  <Chip />}
+                    {new Array(lives).fill(false).map(
+                            (element, index)=><Chip key={index}/>
+                        )
+                    }
                 </div>
                 
                 <div className="row">
                     <canvas id="canvas" onClick={handleClick} width="500px" height="500px" ref={canvasRef} {...props}/>
-                </div>
-                
-
-                
+                </div>                
             </div>  
     )
   
 }
 
 export default Canvas
-
+//map(func, list)
+//list.map(func)
 
 // need help with:
 // stop running interval when there is no lives left (implement gameover)
-// fix a bug where a user can't score / pixels out of range
+// DONE fix a bug where a user can't score / pixels out of range
 // remove alert popping in the browser and make appear on the page
 // errors on console

@@ -14,10 +14,11 @@ function Game () {
               <div className="collapse navbar-collapse" id="navbarSupportedContent">
                   <ul className="navbar-nav mr-auto">
                       <li className="nav-item">
-                          <a className="nav-link" role="button"><Link to="/">Home</Link></a>
+                          <Link className="nav-link" role="button" to="/">Home</Link>
                       </li>
+
                       <li>
-                          <a className="nav-link"><Link to="/game">Start the game</Link></a>
+                          <Link className="nav-link" role="button" to="/game">Start the game</Link>
                       </li>
                   </ul>
               </div>
