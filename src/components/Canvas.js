@@ -96,8 +96,7 @@ const Canvas = props => {
         var interval = setInterval(() => {
             updateState();
         }, 1000);
-        // return () => clearInterval(interval);
-        return () => console.log('return from useEffect')
+        return () => clearInterval(interval);
     }, []);
 
     function handleClick(event) {
@@ -105,13 +104,9 @@ const Canvas = props => {
         const yPosition = event.clientY - event.target.offsetTop
         const gameStateX = gameState.avoPosition.x
         const gameStateY = gameState.avoPosition.y
-        console.log(xPosition, yPosition, gameStateX, gameStateY)
-        console.log(event)
 
-        // i moved the tortilla chips to be aboev the canvas: this resulted in a 220 pixel difference between clicks and avocado positions.
         if (((gameStateX + 100) > xPosition && xPosition > gameStateX) && ((gameStateY + 220) > yPosition && yPosition > gameStateY)) {
             increment(score)
-            // alert("You got the avocado!")
             // updating array with "FLASH"
             gameState.cells[gameState.position] = FLASH
 
@@ -128,9 +123,11 @@ const Canvas = props => {
 
     if (lives === 0) {
         return (
-            <div>
-                <GameOver />
-                <button onClick={()=>setLives(5)}>Play Again</button>
+            <div className="container">
+                    <div className="d-inline-block">
+                        <GameOver />
+                        <button type="button" className="btn btn-success" onClick={()=>setLives(5)}>Play Again?</button>
+                    </div>
             </div>
             
         )
@@ -159,11 +156,3 @@ const Canvas = props => {
 }
 
 export default Canvas
-//map(func, list)
-//list.map(func)
-
-// need help with:
-// stop running interval when there is no lives left (implement gameover)
-// DONE fix a bug where a user can't score / pixels out of range
-// remove alert popping in the browser and make appear on the page
-// errors on console
