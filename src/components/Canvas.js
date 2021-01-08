@@ -4,6 +4,9 @@ import Scoreboard from "./Scoreboard"
 import Guacamole from "./Guacamole"
 import Chip from "./Chip"
 import GameOver from "./GameOver"
+import cuttingboard from './cuttingboard.png'
+import flash from './flash.png'
+import small_avocado from './small_avocado.png'
 
 const Canvas = props => {
     
@@ -48,11 +51,11 @@ const Canvas = props => {
     }
 
     const newBoard = new Image()
-    newBoard.src = 'https://github.com/elenachurilova/guacamole_game/blob/gh-pages/cuttingboard.png'
+    newBoard.src = cuttingboard
     const newAvocado = new Image()
-    newAvocado.src = 'https://github.com/elenachurilova/guacamole_game/blob/gh-pages/small_avocado.png'
+    newAvocado.src = small_avocado
     const newFlash = new Image()
-    newFlash.src = 'https://github.com/elenachurilova/guacamole_game/blob/gh-pages/flash.png'
+    newFlash.src = flash
 
     function showAvocados(ctx) {
         for (const i in gameState.cells) {
